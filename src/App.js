@@ -21,7 +21,7 @@ const App = () => {
 
   const handleCountryChange = async (country) => {
     const fetchedData = await fetchData(country)
-    console.log(fetchedData)
+    
     setData(fetchedData)
     setCountry(country)
   }
