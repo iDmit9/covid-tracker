@@ -12,9 +12,9 @@ export const fetchData = async (country) => {
    try {
       const { data: { confirmed, recovered, deaths, lastUpdate } } = await axios.get(changeableUrl)
 
-      return { confirmed, recovered, deaths, lastUpdate }
+      return [true, { confirmed, recovered, deaths, lastUpdate }]
    } catch (error) {
-      console.log(error)
+      return [false, 'Can\'t fetch data']
    }
 }
 
@@ -30,7 +30,7 @@ export const fetchDailyData = async () => {
 
       return modifiedData
    } catch (error) {
-      console.log(error)
+      console.log('Can\'t fetch daily data')
    }
 }
 
@@ -40,6 +40,6 @@ export const fetchCountries = async () => {
 
       return countries.map((country) => country.name)
    } catch (error) {
-      console.log(error)
+      console.log('Can\'t fetch countries')
    }
 }

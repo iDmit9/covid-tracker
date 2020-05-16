@@ -3,6 +3,7 @@ import { fetchDailyData } from '../../api'
 import { Line, Bar } from 'react-chartjs-2'
 
 import styles from './Chart.module.css'
+import classes from './Chart.module.css'
 
 const Chart = ({ data: { confirmed, recovered, deaths }, country }) => {
    const [dailyData, setDailyData] = useState([])
@@ -16,7 +17,9 @@ const Chart = ({ data: { confirmed, recovered, deaths }, country }) => {
    }, [])
 
    const lineChart = (
-      dailyData.length !== 0
+      !dailyData ? 
+         <div className={classes.error}>Can't fetch daily data</div>
+       : dailyData.length !== 0
          ? (<Line
             data={{
                labels: dailyData.map(({ date }) => date),
