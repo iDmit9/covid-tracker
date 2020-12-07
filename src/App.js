@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 
-import { Cards, Chart, CountryPicker } from './components'
+import { Cards, Chart, CountryPicker, Map } from './components'
 import styles from './App.module.css'
 import { fetchData } from './api'
 
 import coronaImage from './images/image.png'
 
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles'
+import 'leaflet/dist/leaflet.css'
 
 const useStyles = makeStyles((theme) => ({
   error: {
@@ -60,6 +61,7 @@ const App = () => {
         <Cards data={data} />
         <CountryPicker handleCountryChange={handleCountryChange} />
         <Chart data={data} country={country} />
+        <Map />
       </div>
     )
   }
