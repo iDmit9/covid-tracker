@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import { Cards, Chart, CountryPicker, Map } from './components'
 import styles from './App.module.css'
-import { fetchData } from './api'
+import { fetchData, fetchConfirmed } from './api'
 
 import coronaImage from './images/image.png'
 
@@ -21,6 +21,8 @@ const App = () => {
   const classes = useStyles();
 
   const [data, setData] = useState({})
+  const [confirmed, setConfirmed] = useState([])
+  const [maxConfirmed, setMaxConfirmed] = useState(0)
   const [country, setCountry] = useState('')
   const [isError, setIsError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
@@ -28,12 +30,16 @@ const App = () => {
   useEffect(() => {
     (async function () {
       const fetchedData = await fetchData()
+      const fetchedConfirmed = await fetchConfirmed()
 
       if (!fetchedData[0]) {
         setIsError(true)
         setErrorMessage(fetchedData[1])
       } else {
         setData(fetchedData[1])
+        setConfirmed(fetchedConfirmed) 
+        let confirmedCount = fetchedConfirmed.sort((a, b) => a.confirmed > b.confirmed ? -1 : 1)[0].confirmed       
+        setMaxConfirmed(confirmedCount)
       }
     })()
   }, [])
@@ -61,7 +67,10 @@ const App = () => {
         <Cards data={data} />
         <CountryPicker handleCountryChange={handleCountryChange} />
         <Chart data={data} country={country} />
-        <Map />
+        <Map
+          maxConfirmed={maxConfirmed}
+          countries={confirmed}
+        />
       </div>
     )
   }

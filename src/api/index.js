@@ -43,3 +43,14 @@ export const fetchCountries = async () => {
       console.log('Can\'t fetch countries')
    }
 }
+
+export const fetchConfirmed = async () => {   
+   try {      
+      const { data } = await axios.get(`${url}/confirmed`)
+      return data
+      // return data.filter(country => country.provinceState === null)
+      
+   } catch (error) {
+      console.log('Can\'t fetch countries')
+   }
+}
