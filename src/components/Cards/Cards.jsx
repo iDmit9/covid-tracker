@@ -5,8 +5,8 @@ import cx from 'classnames'
 
 import styles from './Cards.module.css'
 
-const Cards = ({ data: { confirmed, recovered, deaths, lastUpdate } }) => {
-   if (!confirmed) {
+const Cards = ({ data: { cases, recovered, deaths, updated  } }) => {
+   if (!cases) {
       return 'Loading ...'
    }
 
@@ -17,9 +17,9 @@ const Cards = ({ data: { confirmed, recovered, deaths, lastUpdate } }) => {
                <CardContent>
                   <Typography color='textSecondary' gutterBottom>Infected</Typography>
                   <Typography variant='h5'>
-                     <CountUp start={0} end={confirmed.value} duration={2.5} separator=',' />
+                     <CountUp start={0} end={cases} duration={2.5} separator=',' />
                   </Typography>
-                  <Typography color='textSecondary'>{new Date(lastUpdate).toLocaleDateString()}</Typography>
+                  <Typography color='textSecondary'>{new Date(updated).toLocaleDateString()}</Typography>
                   <Typography variant='body2'>Number of active cases of Covid-19</Typography>
                </CardContent>
             </Grid>
@@ -27,9 +27,9 @@ const Cards = ({ data: { confirmed, recovered, deaths, lastUpdate } }) => {
                <CardContent>
                   <Typography color='textSecondary' gutterBottom>Recovered</Typography>
                   <Typography variant='h5'>
-                     <CountUp start={0} end={recovered.value} duration={2.5} separator=',' />
+                     <CountUp start={0} end={recovered} duration={2.5} separator=',' />
                   </Typography>
-                  <Typography color='textSecondary'>{new Date(lastUpdate).toLocaleDateString()}</Typography>
+                  <Typography color='textSecondary'>{new Date(updated).toLocaleDateString()}</Typography>
                   <Typography variant='body2'>Number of recovered from Covid-19</Typography>
                </CardContent>
             </Grid>
@@ -37,9 +37,9 @@ const Cards = ({ data: { confirmed, recovered, deaths, lastUpdate } }) => {
                <CardContent>
                   <Typography color='textSecondary' gutterBottom>Deaths</Typography>
                   <Typography variant='h5'>
-                     <CountUp start={0} end={deaths.value} duration={2.5} separator=',' />
+                     <CountUp start={0} end={deaths} duration={2.5} separator=',' />
                   </Typography>
-                  <Typography color='textSecondary'>{new Date(lastUpdate).toLocaleDateString()}</Typography>
+                  <Typography color='textSecondary'>{new Date(updated).toLocaleDateString()}</Typography>
                   <Typography variant='body2'>Number of deaths caused by Covid-19</Typography>
                </CardContent>
             </Grid>

@@ -37,6 +37,7 @@ const App = () => {
         setErrorMessage(fetchedData[1])
       } else {
         setData(fetchedData[1])
+        console.log('fetchedData all',fetchedData[1])
         setConfirmed(fetchedConfirmed) 
         let confirmedCount = fetchedConfirmed.sort((a, b) => a.confirmed > b.confirmed ? -1 : 1)[0].confirmed       
         setMaxConfirmed(confirmedCount)
@@ -52,6 +53,7 @@ const App = () => {
       setErrorMessage(fetchedData[1])
     } else {
       setData(fetchedData[1])
+      console.log('fetchedData country',fetchedData[1])
       setCountry(country)
     }
   }
