@@ -3,11 +3,10 @@ import React from 'react'
 import './Map.css'
 import {MapContainer, TileLayer, useMap, Circle, Popup} from 'react-leaflet'
 
-function Map({countries, maxConfirmed}) {
+function Map({countries, maxConfirmed, center, zoom}) {
 
-   const looksNormalMaxRadius = 500000 
-   let confirmedRatio = 1
-   maxConfirmed && (confirmedRatio = Math.round(maxConfirmed / looksNormalMaxRadius))
+   const looksNormalMaxRadius = 200
+   // maxConfirmed && (looksNormalMaxRadius = Math.round(maxConfirmed) / someRatio)
    
    function SetCenter({newCenter, newZoom}) {
       const map = useMap();
@@ -16,22 +15,27 @@ function Map({countries, maxConfirmed}) {
    }
 
    const showDataOnMap = (data) => {
-      return data.map(country => ( country.lat &&
+      console.log('showDataOnMap',data)
+      return data.map(country => ( country.countryInfo.lat &&
          <Circle
-            key={country.combinedKey}
-            center={[country.lat, country.long]}
+            key={country.country}
+            center={[country.countryInfo.lat, country.countryInfo.long]}
             fillOpacity={0.4}
             color="#CC1034"
             fillColor="#CC1034"
             radius={
-               country.confirmed / confirmedRatio
+               Math.sqrt(country.cases) * looksNormalMaxRadius
             }
          >
             <Popup>
                <div className='info-container'>
-                  <div className="info-name">{country.combinedKey}</div>
+                  <div
+                     className="info-flag"
+                     style={{ backgroundImage: `url(${country.countryInfo.flag})` }}
+                  ></div>
+                  <div className="info-name">{country.country}</div>
                   <div className="info-confirmed">
-                     Confirmed cases: {country.confirmed}
+                     Confirmed cases: {country.cases}
                   </div>
                </div>
             </Popup>
@@ -45,7 +49,7 @@ function Map({countries, maxConfirmed}) {
             center={[30, 15]}   
             zoom={3}
          >
-            {/* <SetCenter newCenter={center} newZoom={zoom}/> */}
+            <SetCenter newCenter={center} newZoom={zoom}/>
             <TileLayer
                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

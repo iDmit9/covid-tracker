@@ -5,12 +5,31 @@ import { Line, Bar } from 'react-chartjs-2'
 import styles from './Chart.module.css'
 import classes from './Chart.module.css'
 
-const Chart = ({ data: { confirmed, recovered, deaths }, country }) => {
-   const [dailyData, setDailyData] = useState([])
+const Chart = ({ data: { cases, recovered, deaths }, country }) => {
+   const [dailyData, setDailyData] = useState({})
+   
+   const buildDailyData = (data) => {      
+      const dateLabeles = []
+      const casesLine = []
+      const deathsLine = []
+
+      for(let date in data['cases']) {         
+         dateLabeles.push(date)
+         casesLine.push(data['cases'][date]);
+      }
+
+      for(let date in data['deaths']) { 
+         deathsLine.push(data['deaths'][date]);
+      }
+      
+      return {dateLabeles, casesLine, deathsLine}
+   }
 
    useEffect(() => {
       const fetchAPI = async () => {
-         setDailyData(await fetchDailyData())
+         const fetchedDailyData = await fetchDailyData()
+         const builtData = buildDailyData(fetchedDailyData)
+         setDailyData(builtData)
       }
 
       fetchAPI();
@@ -19,17 +38,17 @@ const Chart = ({ data: { confirmed, recovered, deaths }, country }) => {
    const lineChart = (
       !dailyData ? 
          <div className={classes.error}>Can't fetch daily data</div>
-       : dailyData.length !== 0
+       : dailyData.dateLabeles
          ? (<Line
             data={{
-               labels: dailyData.map(({ date }) => date),
+               labels: dailyData.dateLabeles,
                datasets: [{
-                  data: dailyData.map(({ confirmed }) => confirmed),
+                  data: dailyData.casesLine,
                   label: 'Infected',
                   borderColor: '#3333ff',
                   fill: true
                }, {
-                  data: dailyData.map(({ deaths }) => deaths),
+                  data: dailyData.deathsLine,
                   label: 'Deaths',
                   borderColor: 'red',
                   backgroundColor: 'rgba(255,0,0,0.5',
@@ -40,7 +59,7 @@ const Chart = ({ data: { confirmed, recovered, deaths }, country }) => {
    )
 
    const barChart = (
-      confirmed
+      cases
          ? (
             <Bar
                data={{
@@ -52,8 +71,7 @@ const Chart = ({ data: { confirmed, recovered, deaths }, country }) => {
                         'rgba(0, 255, 0, 0.5)',
                         'rgba(255, 0, 0, 0.5)'
                      ],
-                     data: [confirmed.value, recovered.value, deaths.value
-                     ]
+                     data: [cases, recovered, deaths]
                   }]
                }}
                options={{
@@ -66,7 +84,7 @@ const Chart = ({ data: { confirmed, recovered, deaths }, country }) => {
 
    return (
       <div className={styles.container}>
-         {country ? barChart : lineChart}
+         {country !== 'global' ? barChart : lineChart}
       </div>
    )
 }

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import { Cards, Chart, CountryPicker, Map } from './components'
 import styles from './App.module.css'
-import { fetchData, fetchConfirmed } from './api'
+import { fetchData, fetchCountries } from './api'
 
 import coronaImage from './images/image.png'
 
@@ -20,41 +20,55 @@ const useStyles = makeStyles((theme) => ({
 const App = () => {
   const classes = useStyles();
 
-  const [data, setData] = useState({})
-  const [confirmed, setConfirmed] = useState([])
-  const [maxConfirmed, setMaxConfirmed] = useState(0)
-  const [country, setCountry] = useState('')
+  const [data, setData] = useState({}) // data of worldwide or country info
+  const [country, setCountry] = useState('global'); //country name
+  const [countries, setCountries] = useState([]) //array of full countries data
+  const [mapCenter, setMapCenter] = useState([30, 15]);
+  const [mapZoom, setMapZoom] = useState(2);
   const [isError, setIsError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
 
   useEffect(() => {
     (async function () {
-      const fetchedData = await fetchData()
-      const fetchedConfirmed = await fetchConfirmed()
+      const fetchedData = await fetchData('global')
 
       if (!fetchedData[0]) {
         setIsError(true)
         setErrorMessage(fetchedData[1])
       } else {
-        setData(fetchedData[1])
-        console.log('fetchedData all',fetchedData[1])
-        setConfirmed(fetchedConfirmed) 
-        let confirmedCount = fetchedConfirmed.sort((a, b) => a.confirmed > b.confirmed ? -1 : 1)[0].confirmed       
-        setMaxConfirmed(confirmedCount)
+        setData(fetchedData[1])       
       }
     })()
   }, [])
+  
+  useEffect(() => {
+    const fetchAPI = async () => {
+       const fetchedCountries = await fetchCountries()
+       setCountries(fetchedCountries)
+    }
 
-  const handleCountryChange = async (country) => {
-    const fetchedData = await fetchData(country)
+    fetchAPI()
+  }, [])
 
+  const handleCountryChange = async (selectedCountry) => {
+    const fetchedData = await fetchData(selectedCountry)
+    
     if (!fetchedData[0]) {
       setIsError(true)
       setErrorMessage(fetchedData[1])
     } else {
       setData(fetchedData[1])
-      console.log('fetchedData country',fetchedData[1])
-      setCountry(country)
+      setCountry(selectedCountry)      
+    }
+
+    console.log('selectedCountry',selectedCountry)
+    if (selectedCountry === 'global') {
+      setMapCenter([30, 15])
+      setMapZoom(2)
+    } else {
+      const foundCountry = countries.find(country => country.country === selectedCountry)
+      setMapCenter([foundCountry.countryInfo.lat, foundCountry.countryInfo.long])
+      setMapZoom(4)
     }
   }
 
@@ -67,11 +81,12 @@ const App = () => {
       <div className={styles.container}>
         <img className={styles.image} src={coronaImage} alt={"COVID-19"} />
         <Cards data={data} />
-        <CountryPicker handleCountryChange={handleCountryChange} />
+        <CountryPicker countries={countries} handleCountryChange={handleCountryChange} />
         <Chart data={data} country={country} />
         <Map
-          maxConfirmed={maxConfirmed}
-          countries={confirmed}
+          countries={countries}
+          center={mapCenter}
+          zoom={mapZoom}
         />
       </div>
     )
