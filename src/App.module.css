@@ -14,12 +14,12 @@ body {
   margin-top: 50px;
 }
 
-@media (max-width: 770px) {
+@media (max-width: 600px) {
   .container {
-    margin: 0 10%;
+    margin: 0 1%;
   }
 
   .image {
-    width: 100%;
+    width: 90%;
   }
 }
