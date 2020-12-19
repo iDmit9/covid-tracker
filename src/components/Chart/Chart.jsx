@@ -9,20 +9,17 @@ const Chart = ({ data: { cases, recovered, deaths }, country }) => {
    const [dailyData, setDailyData] = useState({})
    
    const buildDailyData = (data) => {      
-      const dateLabeles = []
+      const dateLabels = []
       const casesLine = []
       const deathsLine = []
 
-      for(let date in data['cases']) {         
-         dateLabeles.push(date)
-         casesLine.push(data['cases'][date]);
-      }
-
-      for(let date in data['deaths']) { 
-         deathsLine.push(data['deaths'][date]);
+      for(let date in data.cases) {         
+         dateLabels.push(date)
+         casesLine.push(data.cases[date]);
+         deathsLine.push(data.deaths[date]);
       }
       
-      return {dateLabeles, casesLine, deathsLine}
+      return {dateLabels, casesLine, deathsLine}
    }
 
    useEffect(() => {
@@ -38,10 +35,10 @@ const Chart = ({ data: { cases, recovered, deaths }, country }) => {
    const lineChart = (
       !dailyData ? 
          <div className={classes.error}>Can't fetch daily data</div>
-       : dailyData.dateLabeles
+       : dailyData.dateLabels
          ? (<Line
             data={{
-               labels: dailyData.dateLabeles,
+               labels: dailyData.dateLabels,
                datasets: [{
                   data: dailyData.casesLine,
                   label: 'Infected',
