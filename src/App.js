@@ -40,11 +40,6 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1),
     textAlign: "center"
   },
-  root: {
-    flexGrow: 1,
-    width: "80%",
-    backgroundColor: theme.palette.background.default,
-  },
 }));
 
 const App = () => {
@@ -58,7 +53,7 @@ const App = () => {
   const [isError, setIsError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
 
-  const [value, setValue] = useState(0);
+  const [tabValue, setValue] = useState(0);
 
   const handleTabChange = (event, newValue) => {
     setValue(newValue);
@@ -117,31 +112,31 @@ const App = () => {
         <img className={styles.image} src={coronaImage} alt={"COVID-19"} />
         <Cards data={data} />
         <CountryPicker countries={countries} handleCountryChange={handleCountryChange} />
-        <div className={classes.root}>
-        <AppBar position="static" color="inherit">
-          <Tabs 
-            value={value} 
-            onChange={handleTabChange} 
-            aria-label="simple tabs example" 
-            indicatorColor="primary"
-            textColor="primary"
-            centered
-          >
-            <Tab label="Chart"  />
-            <Tab label="Map"  />
-          </Tabs>
-        </AppBar>
-        <TabPanel value={value} index={0}>
-          <Chart data={data} country={country} />
-        </TabPanel>
-        <TabPanel value={value} index={1}>
-          <Map
-            countries={countries}
-            center={mapCenter}
-            zoom={mapZoom}
-          />
-        </TabPanel>
-      </div>
+        <div className={styles.rootTabs}>
+          <AppBar position="static" color="inherit" className={styles.tabsHeader}>
+            <Tabs 
+              value={tabValue} 
+              onChange={handleTabChange} 
+              aria-label="simple tabs" 
+              indicatorColor="primary"
+              textColor="primary"
+              centered
+            >
+              <Tab label="Chart" />
+              <Tab label="Map" />
+            </Tabs>
+          </AppBar>
+          <TabPanel value={tabValue} index={0}>
+            <Chart data={data} country={country} />
+          </TabPanel>
+          <TabPanel value={tabValue} index={1}>
+            <Map
+              countries={countries}
+              center={mapCenter}
+              zoom={mapZoom}
+            />
+          </TabPanel>
+        </div>
       </div>
     )
   }
