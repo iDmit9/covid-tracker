@@ -76,9 +76,9 @@ const App = () => {
   useEffect(() => {
     const fetchAPI = async () => {
       try {
-        const data = await fetchCountries()
+        const fetchedData = await fetchCountries()
         
-        setCountries(data.data)
+        setCountries(fetchedData.data)
       } catch(err) {        
         setIsError(true)
         console.log('Can\'t fetch countries, ', err)
@@ -97,8 +97,8 @@ const App = () => {
       setCountry(selectedCountry)  
     } catch(err) {
       setIsError(true)
-      console.log(`Can\'t fetch ${selectedCountry} data, `, err)
-      setErrorMessage(`Can\'t fetch ${selectedCountry} data`)
+      console.log(`Can't fetch ${selectedCountry} data, `, err)
+      setErrorMessage(`Can't fetch ${selectedCountry} data`)
     }
 
     if (selectedCountry === 'global') {
