@@ -61,35 +61,44 @@ const App = () => {
 
   useEffect(() => {
     (async function () {
-      const fetchedData = await fetchData('global')
-
-      if (!fetchedData[0]) {
+      try {
+        const { data: { cases, recovered, deaths, updated } } = await fetchData('global')
+        
+        setData({ cases, recovered, deaths, updated }) 
+      } catch(err) {
         setIsError(true)
-        setErrorMessage(fetchedData[1])
-      } else {
-        setData(fetchedData[1])       
+        console.log('Can\'t fetch global data, ', err)
+        setErrorMessage('Can\'t fetch global data')
       }
     })()
   }, [])
   
   useEffect(() => {
     const fetchAPI = async () => {
-       const fetchedCountries = await fetchCountries()
-       setCountries(fetchedCountries)
+      try {
+        const data = await fetchCountries()
+        
+        setCountries(data.data)
+      } catch(err) {        
+        setIsError(true)
+        console.log('Can\'t fetch countries, ', err)
+        setErrorMessage('Can\'t fetch countries')
+      }
     }
 
     fetchAPI()
   }, [])
 
-  const handleCountryChange = async (selectedCountry) => {
-    const fetchedData = await fetchData(selectedCountry)
-    
-    if (!fetchedData[0]) {
+  const handleCountryChange = async (selectedCountry) => {    
+    try {
+      const { data: { cases, recovered, deaths, updated } } = await fetchData(selectedCountry)
+      
+      setData({ cases, recovered, deaths, updated })       
+      setCountry(selectedCountry)  
+    } catch(err) {
       setIsError(true)
-      setErrorMessage(fetchedData[1])
-    } else {
-      setData(fetchedData[1])
-      setCountry(selectedCountry)      
+      console.log(`Can\'t fetch ${selectedCountry} data, `, err)
+      setErrorMessage(`Can\'t fetch ${selectedCountry} data`)
     }
 
     if (selectedCountry === 'global') {

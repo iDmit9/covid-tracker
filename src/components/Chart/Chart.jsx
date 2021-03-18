@@ -24,8 +24,8 @@ const Chart = ({ data: { cases, recovered, deaths }, country }) => {
 
    useEffect(() => {
       const fetchAPI = async () => {
-         const fetchedDailyData = await fetchDailyData()
-         const builtData = buildDailyData(fetchedDailyData)
+         const { data } = await fetchDailyData()
+         const builtData = buildDailyData(data)
          setDailyData(builtData)
       }
 
