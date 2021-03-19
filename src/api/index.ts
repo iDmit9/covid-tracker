@@ -2,20 +2,24 @@ import axios from 'axios'
 
 const baseUrl = 'https://disease.sh/v3/covid-19'
 
-type MainDataType = {
+export type MainDataType = {
    cases: number
    recovered: number
    deaths: number
    updated: number
 }
 
-type CountryType = {
+export type CountryType = {
    country: string
+   countryInfo: {
+      lat: number
+      long: number
+   }
 }
 
 //fields "cases", "recovered" and "deaths" consists of unknown number of enumerable properties of an object
 //I did not figure out how to describe hundreds fields with unknown names better than "any"
-type DailyDataType = {
+export type DailyDataType = {
    cases: any
    recovered: any
    deaths: any

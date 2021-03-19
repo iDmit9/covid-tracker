@@ -7,7 +7,9 @@ import styles from './Cards.module.css'
 
 const Cards = ({ data: { cases, recovered, deaths, updated  } }) => {
    if (!cases) {
-      return 'Loading ...'
+      return (
+         <div>Loading ...</div>
+      )
    }
 
    return (
