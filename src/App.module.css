@@ -16,28 +16,9 @@ body {
   margin-top: 50px;
 }
 
-.rootTabs {
-  flex-grow: 1;
-  width: 80%;
-  background-color: #fff; 
-  margin-bottom: 1rem;
-}
-
-.tabsHeader {
-  box-shadow: none !important;
-  border-bottom: 1px solid #e8e8e8;
-}
-
 @media (max-width: 600px) {
   .image {
     width: 80%;
     margin-top: 35px;
-  }
-  
-  .rootTabs {
-    flex-grow: 1;
-    width: 100%;
-    background-color: #fff;   
-    margin: 0;
   }
 }

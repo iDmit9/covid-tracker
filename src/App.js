@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Box from '@material-ui/core/Box';
-
-import { Cards, Chart, CountryPicker, Map } from './components'
+import { Cards, CountryPicker, MapAndChartTabs } from './components'
 import styles from './App.module.css'
 import { fetchData, fetchCountries } from './api'
 
@@ -13,26 +8,6 @@ import coronaImage from './images/image.png'
 
 import { makeStyles } from '@material-ui/core/styles'
 import 'leaflet/dist/leaflet.css'
-
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box p={3}>
-          {children}
-        </Box>
-      )}
-    </div>
-  );
-}
 
 const useStyles = makeStyles((theme) => ({
   error: {
@@ -52,12 +27,6 @@ const App = () => {
   const [mapZoom, setMapZoom] = useState(2);
   const [isError, setIsError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
-
-  const [tabValue, setValue] = useState(0);
-
-  const handleTabChange = (event, newValue) => {
-    setValue(newValue);
-  };
 
   useEffect(() => {
     (async function () {
@@ -121,31 +90,13 @@ const App = () => {
         <img className={styles.image} src={coronaImage} alt={"COVID-19"} />
         <Cards data={data} />
         <CountryPicker countries={countries} handleCountryChange={handleCountryChange} />
-        <div className={styles.rootTabs}>
-          <AppBar position="static" color="inherit" className={styles.tabsHeader}>
-            <Tabs 
-              value={tabValue} 
-              onChange={handleTabChange} 
-              aria-label="simple tabs" 
-              indicatorColor="primary"
-              textColor="primary"
-              centered
-            >
-              <Tab label="Chart" />
-              <Tab label="Map" />
-            </Tabs>
-          </AppBar>
-          <TabPanel value={tabValue} index={0}>
-            <Chart data={data} country={country} />
-          </TabPanel>
-          <TabPanel value={tabValue} index={1}>
-            <Map
-              countries={countries}
-              center={mapCenter}
-              zoom={mapZoom}
-            />
-          </TabPanel>
-        </div>
+        <MapAndChartTabs 
+          data={data}
+          country={country}
+          countries={countries}
+          mapCenter={mapCenter}
+          mapZoom={mapZoom}
+        />
       </div>
     )
   }
