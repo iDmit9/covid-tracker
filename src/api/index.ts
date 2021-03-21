@@ -14,7 +14,9 @@ export type CountryType = {
    countryInfo: {
       lat: number
       long: number
+      flag: string //link to flag
    }
+   cases: number
 }
 
 //fields "cases", "recovered" and "deaths" consists of unknown number of enumerable properties of an object

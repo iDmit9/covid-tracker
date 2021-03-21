@@ -1,22 +1,28 @@
 import React from 'react'
-// import styles from './Map.module.css' //modules with leaflet do not work
-import './Map.css'
 import {MapContainer, TileLayer, useMap, Circle, Popup} from 'react-leaflet'
 
-function Map({countries, maxConfirmed, center, zoom}) {
+import {CountryType} from '../../api'
 
-   const looksNormalMaxRadius = 200
-   // maxConfirmed && (looksNormalMaxRadius = Math.round(maxConfirmed) / someRatio)
+// import styles from './Map.module.css' //modules with leaflet do not work
+import './Map.css'
+
+type MapProps = {
+   countries: Array<CountryType>
+   center: [number, number] // not compatible with Array<number> because "Target requires 2 element(s) but source may have fewer"
+   zoom: number
+}
+
+function Map({countries, center, zoom}: MapProps) {
+   const looksNormalMaxRadiusCoefficient = 200
    
-   function SetCenter({newCenter, newZoom}) {
+   function SetCenter({newCenter, newZoom}: {newCenter: [number, number], newZoom: number}) {
       const map = useMap();
       map.setView(newCenter, newZoom);
       return null;
    }
 
-   const showDataOnMap = (data) => {
-      console.log('showDataOnMap',data)
-      return data.map(country => ( country.countryInfo.lat &&
+   const showDataOnMap = (data: Array<CountryType>) => {
+      return data && data.map(country => ( country.countryInfo.lat &&
          <Circle
             key={country.country}
             center={[country.countryInfo.lat, country.countryInfo.long]}
@@ -24,7 +30,7 @@ function Map({countries, maxConfirmed, center, zoom}) {
             color="#CC1034"
             fillColor="#CC1034"
             radius={
-               Math.sqrt(country.cases) * looksNormalMaxRadius
+               Math.sqrt(country.cases) * looksNormalMaxRadiusCoefficient
             }
          >
             <Popup>
