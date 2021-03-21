@@ -20,10 +20,10 @@ const useStyles = makeStyles((theme) => ({
 const App = () => {
   const classes = useStyles();
 
-  const [data, setData] = useState<MainDataType>({cases: 0,recovered: 0,deaths: 0, updated: 0}) // data of worldwide or country info
+  const [data, setData] = useState<MainDataType>({cases: 0, recovered: 0, deaths: 0, updated: 0}) // data of worldwide or country info
   const [country, setCountry] = useState('global'); //country name
   const [countries, setCountries] = useState<Array<CountryType>>([]) //array of full countries data
-  const [mapCenter, setMapCenter] = useState([30, 15]);
+  const [mapCenter, setMapCenter] = useState<[number, number]>([30, 15]);
   const [mapZoom, setMapZoom] = useState(2);
   const [isError, setIsError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')

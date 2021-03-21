@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { ChangeEvent, useState } from 'react'
 
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -7,9 +7,17 @@ import Box from '@material-ui/core/Box';
 
 import styles from './MapAndChartTabs.module.css'
 
+import { MainDataType, CountryType } from '../../api'
 import { Chart, Map } from '../'
 
-function TabPanel(props) {
+type TabPanelProps = {
+   value: number
+   index: number
+   children: React.ReactNode
+   other?: Array<any>
+}
+
+function TabPanel(props: TabPanelProps) {
    const { children, value, index, ...other } = props;
  
    return (
@@ -22,18 +30,26 @@ function TabPanel(props) {
       >
          {value === index && (
             <Box p={3}>
-            {children}
+               {children}
             </Box>
          )}
       </div>
    );
- }
+}
 
-const MapAndChartTabs = ({data, country, countries, mapCenter, mapZoom}) => {
-   const [tabValue, setValue] = useState(0);
+type MapAndChartTabsProps = {
+   data: MainDataType
+   country: string   
+   countries: Array<CountryType>
+   mapCenter: [number, number]
+   mapZoom: number
+}
 
-   const handleTabChange = (event, newValue) => {
-      setValue(newValue);
+const MapAndChartTabs = ({data, country, countries, mapCenter, mapZoom}: MapAndChartTabsProps) => {
+   const [tabValue, setTabValue] = useState(0);
+
+   const handleTabChange = (event: ChangeEvent<{}>, newValue: number):void => {
+      setTabValue(newValue);
    };
 
    return (
