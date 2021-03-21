@@ -2,13 +2,26 @@ import React, { useState, useEffect } from 'react'
 import { fetchDailyData } from '../../api'
 import { Line, Bar } from 'react-chartjs-2'
 
+import {MainDataType, DailyDataType} from '../../api'
+
 import styles from './Chart.module.css'
 import classes from './Chart.module.css'
 
-const Chart = ({ data: { cases, recovered, deaths }, country }) => {
-   const [dailyData, setDailyData] = useState({})
+type ChartPropsType = {
+   data: MainDataType
+   country: string
+}
+
+type BuiltDaylyDataType = {
+   dateLabels: Array<string>
+   casesLine: Array<number>
+   deathsLine: Array<number>
+}
+
+const Chart = ({ data: { cases, recovered, deaths }, country }: ChartPropsType) => {
+   const [dailyData, setDailyData] = useState<BuiltDaylyDataType>({dateLabels: [], casesLine: [], deathsLine: []})
    
-   const buildDailyData = (data) => {      
+   const buildDailyData = (data: DailyDataType) => {      
       const dateLabels = []
       const casesLine = []
       const deathsLine = []
