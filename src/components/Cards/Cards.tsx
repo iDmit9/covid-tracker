@@ -3,9 +3,11 @@ import { Card, CardContent, Typography, Grid } from '@material-ui/core'
 import CountUp from 'react-countup'
 import cx from 'classnames'
 
+import {MainDataType} from '../../api'
+
 import styles from './Cards.module.css'
 
-const Cards = ({ data: { cases, recovered, deaths, updated  } }) => {
+const Cards = ({ data: { cases, recovered, deaths, updated  } }: {data: MainDataType}) => {
    if (!cases) {
       return (
          <div>Loading ...</div>
