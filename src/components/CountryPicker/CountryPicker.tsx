@@ -1,9 +1,16 @@
 import React from 'react'
 import { NativeSelect, FormControl } from '@material-ui/core'
 
+import {CountryType} from '../../api'
+
 import styles from './CountryPicker.module.css'
 
-const CountryPicker = ({countries,  handleCountryChange }) => {
+type CountryPickerProps = {
+   countries: Array<CountryType>
+   handleCountryChange: (selectedCountry: string) => void
+}
+
+const CountryPicker = ({countries, handleCountryChange}: CountryPickerProps) => {
 
    return (
       <FormControl className={styles.formControl}>
