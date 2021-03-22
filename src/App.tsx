@@ -36,7 +36,6 @@ const App = () => {
         setData({ cases, recovered, deaths, updated }) 
       } catch(err) {
         setIsError(true)
-        console.log('Can\'t fetch global data, ', err)
         setErrorMessage('Can\'t fetch global data')
       }
     })()
@@ -50,7 +49,6 @@ const App = () => {
         setCountries(fetchedData.data)
       } catch(err) {        
         setIsError(true)
-        console.log('Can\'t fetch countries, ', err)
         setErrorMessage('Can\'t fetch countries')
       }
     }
@@ -66,7 +64,6 @@ const App = () => {
       setCountry(selectedCountry)  
     } catch(err) {
       setIsError(true)
-      console.log(`Can't fetch ${selectedCountry} data, `, err)
       setErrorMessage(`Can't fetch ${selectedCountry} data`)
     }
 
