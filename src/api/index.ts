@@ -19,12 +19,10 @@ export type CountryType = {
    cases: number
 }
 
-//fields "cases", "recovered" and "deaths" consists of unknown number of enumerable properties of an object
-//I did not figure out how to describe hundreds fields with unknown names better than "any"
 export type DailyDataType = {
-   cases: any
-   recovered: any
-   deaths: any
+   cases: { [date: string]: number }
+   recovered: { [date: string]: number }
+   deaths: { [date: string]: number }
 }
 
 export const fetchData = (country: string) => {
