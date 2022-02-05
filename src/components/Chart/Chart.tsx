@@ -49,23 +49,27 @@ const Chart = ({ data: { cases, recovered, deaths }, country }: ChartPropsType) 
       !dailyData ? 
          <div className={classes.error}>Can't fetch daily data</div>
        : dailyData.dateLabels
-         ? (<Line
-            data={{
-               labels: dailyData.dateLabels,
-               datasets: [{
-                  data: dailyData.casesLine,
-                  label: 'Infected',
-                  borderColor: '#3333ff',
-                  fill: true
-               }, {
-                  data: dailyData.deathsLine,
-                  label: 'Deaths',
-                  borderColor: 'red',
-                  backgroundColor: 'rgba(255,0,0,0.5',
-                  fill: true
-               }]
-            }}
-         />) : null
+         ? ( 'Chart v4 not work like chart v2'
+         
+         // <Line
+         //    data={{
+         //       labels: dailyData.dateLabels,
+         //       datasets: [{
+         //          data: dailyData.casesLine,
+         //          label: 'Infected',
+         //          borderColor: '#3333ff',
+         //          fill: true
+         //       }, {
+         //          data: dailyData.deathsLine,
+         //          label: 'Deaths',
+         //          borderColor: 'red',
+         //          backgroundColor: 'rgba(255,0,0,0.5',
+         //          fill: true
+         //       }]
+         //    }}
+         // />
+         
+         ) : null
    )
 
    const barChart = (
@@ -84,10 +88,10 @@ const Chart = ({ data: { cases, recovered, deaths }, country }: ChartPropsType) 
                      data: [cases, recovered, deaths]
                   }]
                }}
-               options={{
-                  legend: { display: false },
-                  title: { display: true, text: `Current state in ${country}` }
-               }}
+               // options={{
+               //    legend: { display: false },
+               //    title: { display: true, text: `Current state in ${country}` }
+               // }}
             />
          ) : null
    )
