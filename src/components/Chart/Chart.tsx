@@ -1,106 +1,139 @@
-import React, { useState, useEffect } from 'react'
-import { fetchDailyData } from '../../api'
-import { Line, Bar } from 'react-chartjs-2'
+import React, { useState, useEffect } from "react";
+import { fetchDailyData } from "../../api";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+import { Line, Bar } from "react-chartjs-2";
 
-import {MainDataType, DailyDataType} from '../../api'
+import { MainDataType, DailyDataType } from "../../api";
 
-import styles from './Chart.module.css'
-import classes from './Chart.module.css'
+import styles from "./Chart.module.css";
+import classes from "./Chart.module.css";
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 type ChartPropsType = {
-   data: MainDataType
-   country: string
-}
+  data: MainDataType;
+  country: string;
+};
 
 type BuiltDaylyDataType = {
-   dateLabels: Array<string>
-   casesLine: Array<number>
-   deathsLine: Array<number>
-}
+  dateLabels: Array<string>;
+  casesLine: Array<number>;
+  deathsLine: Array<number>;
+};
 
-const Chart = ({ data: { cases, recovered, deaths }, country }: ChartPropsType) => {
-   const [dailyData, setDailyData] = useState<BuiltDaylyDataType>({dateLabels: [], casesLine: [], deathsLine: []})
-   
-   const buildDailyData = (data: DailyDataType) => {      
-      const dateLabels = []
-      const casesLine = []
-      const deathsLine = []
+const Chart = ({
+  data: { cases, recovered, deaths },
+  country,
+}: ChartPropsType) => {
+  const [dailyData, setDailyData] = useState<BuiltDaylyDataType>({
+    dateLabels: [],
+    casesLine: [],
+    deathsLine: [],
+  });
 
-      for(let date in data.cases) {         
-         dateLabels.push(date)
-         casesLine.push(data.cases[date]);
-         deathsLine.push(data.deaths[date]);
-      }
-      
-      return {dateLabels, casesLine, deathsLine}
-   }
+  const buildDailyData = (data: DailyDataType) => {
+    const dateLabels = [];
+    const casesLine = [];
+    const deathsLine = [];
 
-   useEffect(() => {
-      const fetchAPI = async () => {
-         const { data } = await fetchDailyData()
-         const builtData = buildDailyData(data)
-         setDailyData(builtData)
-      }
+    for (let date in data.cases) {
+      dateLabels.push(date);
+      casesLine.push(data.cases[date]);
+      deathsLine.push(data.deaths[date]);
+    }
 
-      fetchAPI();
-   }, [])
+    return { dateLabels, casesLine, deathsLine };
+  };
 
-   const lineChart = (
-      !dailyData ? 
-         <div className={classes.error}>Can't fetch daily data</div>
-       : dailyData.dateLabels
-         ? ( 'Chart v4 not work like chart v2'
-         
-         // <Line
-         //    data={{
-         //       labels: dailyData.dateLabels,
-         //       datasets: [{
-         //          data: dailyData.casesLine,
-         //          label: 'Infected',
-         //          borderColor: '#3333ff',
-         //          fill: true
-         //       }, {
-         //          data: dailyData.deathsLine,
-         //          label: 'Deaths',
-         //          borderColor: 'red',
-         //          backgroundColor: 'rgba(255,0,0,0.5',
-         //          fill: true
-         //       }]
-         //    }}
-         // />
-         
-         ) : null
-   )
+  useEffect(() => {
+    const fetchAPI = async () => {
+      const { data } = await fetchDailyData();
+      const builtData = buildDailyData(data);
+      setDailyData(builtData);
+    };
 
-   const barChart = (
-      cases
-         ? (
-            <Bar
-               data={{
-                  labels: ['Infected', 'Recovered', 'Deaths'],
-                  datasets: [{
-                     label: "People",
-                     backgroundColor: [
-                        'rgba(0, 0, 255, 0.5)',
-                        'rgba(0, 255, 0, 0.5)',
-                        'rgba(255, 0, 0, 0.5)'
-                     ],
-                     data: [cases, recovered, deaths]
-                  }]
-               }}
-               // options={{
-               //    legend: { display: false },
-               //    title: { display: true, text: `Current state in ${country}` }
-               // }}
-            />
-         ) : null
-   )
+    fetchAPI();
+  }, []);
 
-   return (
-      <div className={styles.container}>
-         {country !== 'global' ? barChart : lineChart}
-      </div>
-   )
-}
+  const lineChart = !dailyData ? (
+    <div className={classes.error}>Can't fetch daily data</div>
+  ) : dailyData.dateLabels ? (
+    <Line
+      data={{
+        labels: dailyData.dateLabels,
+        datasets: [
+          {
+            data: dailyData.casesLine,
+            label: "Infected",
+            borderColor: "#3333ff",
+            fill: true,
+          },
+          {
+            data: dailyData.deathsLine,
+            label: "Deaths",
+            borderColor: "red",
+            backgroundColor: "rgba(255,0,0,0.5",
+            fill: true,
+          },
+        ],
+      }}
+    />
+  ) : null;
 
-export default Chart
+  const barChart = cases ? (
+    <Bar
+      data={{
+        labels: ["Infected", "Recovered", "Deaths"],
+        datasets: [
+          {
+            label: "People",
+            backgroundColor: [
+              "rgba(0, 0, 255, 0.5)",
+              "rgba(0, 255, 0, 0.5)",
+              "rgba(255, 0, 0, 0.5)",
+            ],
+            data: [cases, recovered, deaths],
+          },
+        ],
+      }}
+      options={{
+        plugins: {
+          legend: {
+            display: false,
+          },
+          title: {
+            display: true,
+            text: `Current state in ${country}`,
+          },
+        },
+      }}
+    />
+  ) : null;
+
+  return (
+    <div className={styles.container}>
+      {country !== "global" ? barChart : lineChart}
+    </div>
+  );
+};
+
+export default Chart;
