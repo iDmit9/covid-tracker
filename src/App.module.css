@@ -16,6 +16,12 @@ body {
   margin-top: 50px;
 }
 
+.source {
+  font-family: arial,sans-serif;
+  color: #3c4043;
+  line-height: 16px;
+}
+
 @media (max-width: 600px) {
   .image {
     width: 80%;

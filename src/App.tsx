@@ -85,6 +85,7 @@ const App = () => {
     return (
       <div className={styles.container}>
         <img className={styles.image} src={coronaImage} alt={"COVID-19"} />
+        <p className={styles.source}>source: disease.sh open API</p>
         <Cards data={data} />
         <CountryPicker countries={countries} handleCountryChange={handleCountryChange} />
         <MapAndChartTabs 
