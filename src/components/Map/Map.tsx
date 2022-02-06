@@ -13,7 +13,10 @@ type MapProps = {
 }
 
 function Map({countries, center, zoom}: MapProps) {
-   const looksNormalMaxRadiusCoefficient = 200
+   const foundUSA = countries.find((item) => item.country === "USA")
+   const biggestCases = foundUSA?.cases
+   
+   const looksNormalMaxRadiusCoefficient = 5000000000 / ( biggestCases || 100000000 ) 
    
    function SetCenter({newCenter, newZoom}: {newCenter: [number, number], newZoom: number}) {
       const map = useMap();
