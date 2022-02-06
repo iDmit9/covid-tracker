@@ -17,9 +17,20 @@ body {
 }
 
 .source {
-  font-family: arial,sans-serif;
+  font-family: arial, sans-serif;
   color: #3c4043;
   line-height: 16px;
+}
+
+.error {
+  padding: 8px;
+  font-size: 0.875rem;
+  text-align: center;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-weight: 500;
+  line-height: 1.75;  
+  letter-spacing: 0.02857em;
+  text-transform: uppercase;
 }
 
 @media (max-width: 600px) {

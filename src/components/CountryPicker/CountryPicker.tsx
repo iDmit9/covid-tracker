@@ -1,5 +1,5 @@
 import React from 'react'
-import { NativeSelect, FormControl } from '@material-ui/core'
+import { NativeSelect, FormControl } from '@mui/material'
 
 import {CountryType} from '../../api'
 

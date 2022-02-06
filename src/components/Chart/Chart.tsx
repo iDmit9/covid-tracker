@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { fetchDailyData } from "../../api";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -13,10 +12,9 @@ import {
 } from "chart.js";
 import { Line, Bar } from "react-chartjs-2";
 
-import { MainDataType, DailyDataType } from "../../api";
+import { fetchDailyData, MainDataType, DailyDataType } from "../../api";
 
 import styles from "./Chart.module.css";
-import classes from "./Chart.module.css";
 
 ChartJS.register(
   CategoryScale,
@@ -75,7 +73,7 @@ const Chart = ({
   }, []);
 
   const lineChart = !dailyData ? (
-    <div className={classes.error}>Can't fetch daily data</div>
+    <div className={styles.error}>Can't fetch daily data</div>
   ) : dailyData.dateLabels ? (
     <Line
       data={{

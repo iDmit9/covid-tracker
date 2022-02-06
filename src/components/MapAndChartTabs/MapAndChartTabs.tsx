@@ -1,9 +1,6 @@
 import React, { ChangeEvent, useState } from 'react'
 
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Box from '@material-ui/core/Box';
+import {Tabs, Tab, AppBar, Box} from '@mui/material';
 
 import styles from './MapAndChartTabs.module.css'
 
