@@ -9,6 +9,7 @@ import {
   Title,
   Tooltip,
   Legend,
+  Filler,
 } from "chart.js";
 import { Line, Bar } from "react-chartjs-2";
 
@@ -24,7 +25,8 @@ ChartJS.register(
   BarElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  Filler
 );
 
 type ChartPropsType = {
@@ -38,10 +40,7 @@ type BuiltDaylyDataType = {
   deathsLine: Array<number>;
 };
 
-const Chart = ({
-  data: { cases, recovered, deaths },
-  country,
-}: ChartPropsType) => {
+const Chart = ({ data: { cases, recovered, deaths }, country }: ChartPropsType) => {
   const [dailyData, setDailyData] = useState<BuiltDaylyDataType>({
     dateLabels: [],
     casesLine: [],
@@ -49,18 +48,39 @@ const Chart = ({
   });
 
   const buildDailyData = (data: DailyDataType) => {
-    const dateLabels = [];
-    const casesLine = [];
-    const deathsLine = [];
+    const dateLabels: string[] = [];
+    const casesLine: number[] = [];
+    const deathsLine: number[] = [];
+    
+    const weeklyAverageDateLabels: string[] = [];
+    const weeklyAverageCasesLine: number[] = [];
+    const weeklyAverageDeathsLine: number[] = [];
+
+    let prevDate: null | string = null;
 
     for (let date in data.cases) {
+      if (!prevDate) {
+        dateLabels.push(date);
+        casesLine.push(0);
+        deathsLine.push(0);
+        prevDate = date;
+        continue;
+      }
+      
       dateLabels.push(date);
-      casesLine.push(data.cases[date]);
-      deathsLine.push(data.deaths[date]);
+      casesLine.push(data.cases[date] - data.cases[prevDate]);
+      deathsLine.push(data.deaths[date] - data.deaths[prevDate]);
+      prevDate = date;
     }
 
-    return { dateLabels, casesLine, deathsLine };
-  };
+    for (let i = 6; i <= dateLabels.length; i++) {      
+      weeklyAverageDateLabels.push(dateLabels[i]);
+      weeklyAverageCasesLine.push((casesLine[i] + casesLine[i-1] + casesLine[i-2] + casesLine[i-3] + casesLine[i-4] + casesLine[i-5] + casesLine[i-6]) / 7);
+      weeklyAverageDeathsLine.push((deathsLine[i] + deathsLine[i-1] + deathsLine[i-2] + deathsLine[i-3] + deathsLine[i-4] + deathsLine[i-5] + deathsLine[i-6]) / 7);
+    }
+
+    return { dateLabels: weeklyAverageDateLabels, casesLine: weeklyAverageCasesLine, deathsLine: weeklyAverageDeathsLine };
+  };  
 
   useEffect(() => {
     const fetchAPI = async () => {
@@ -83,7 +103,7 @@ const Chart = ({
             data: dailyData.casesLine,
             label: "Infected",
             borderColor: "#3333ff",
-            fill: true,
+            fill: false,
           },
           {
             data: dailyData.deathsLine,
