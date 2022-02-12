@@ -1,7 +1,7 @@
 import React from 'react'
 import { NativeSelect, FormControl } from '@mui/material'
 
-import {CountryType} from '../../api'
+import {CountryType} from 'api'
 
 import styles from './CountryPicker.module.css'
 

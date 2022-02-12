@@ -4,8 +4,8 @@ import {Tabs, Tab, AppBar, Box} from '@mui/material';
 
 import styles from './MapAndChartTabs.module.css'
 
-import { MainDataType, CountryType } from '../../api'
-import { Chart, Map } from '../'
+import { MainDataType, CountryType } from 'api'
+import { Chart, Map } from 'components'
 
 type TabPanelProps = {
    value: number

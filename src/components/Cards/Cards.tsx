@@ -3,7 +3,7 @@ import { Card, CardContent, Typography, Grid } from "@mui/material";
 import CountUp from "react-countup";
 import cx from "classnames";
 
-import { MainDataType } from "../../api";
+import { MainDataType } from "api";
 
 import styles from "./Cards.module.css";
 

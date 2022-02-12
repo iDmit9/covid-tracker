@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 
-import { Cards, CountryPicker, MapAndChartTabs } from "./components";
-import styles from "./App.module.css";
-import { fetchData, fetchCountries, MainDataType, CountryType } from "./api";
+import { Cards, CountryPicker, MapAndChartTabs } from "components";
+import styles from "App.module.css";
+import { fetchData, fetchCountries, MainDataType, CountryType } from "api";
 
-import coronaImage from "./images/image.png";
+import coronaImage from "images/image.png";
 
 import "leaflet/dist/leaflet.css";
 

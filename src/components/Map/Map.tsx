@@ -1,7 +1,7 @@
 import React from 'react'
 import {MapContainer, TileLayer, useMap, Circle, Popup} from 'react-leaflet'
 
-import {CountryType} from '../../api'
+import {CountryType} from 'api'
 
 // import styles from './Map.module.css' //modules with leaflet do not work
 import './Map.css'

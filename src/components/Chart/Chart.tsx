@@ -13,7 +13,7 @@ import {
 } from "chart.js";
 import { Line, Bar } from "react-chartjs-2";
 
-import { fetchDailyData, MainDataType, DailyDataType } from "../../api";
+import { fetchDailyData, MainDataType, DailyDataType } from "api";
 
 import styles from "./Chart.module.css";
 
